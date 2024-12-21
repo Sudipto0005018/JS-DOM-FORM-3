@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Values Table</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80%;
+            max-width: 600px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            margin-bottom: 5px;
+        }
+
+        .input-group input {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #e7e4e4;
+            border-radius: 5px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .buttons button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #2d4fe9;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #034086;
+        }
+        .buttons button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .search-table {
+            margin-top: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="input-group">
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Enter student name">
+            <label for="age">Age</label>
+            <input type="number" id="age" placeholder="Enter age">
+            <label for="phone">Phone Number</label>
+            <input type="number" id="phone" placeholder="Enter phone number">
+            <label for="city">City</label>
+            <input type="text" id="city" placeholder="Enter city">
+            <div class="buttons">
+            <button id="addButton" onclick="addData()">Add Data</button>
+            <button id="searchButton" onclick="searchData()">Search</button>
+            </div>
+        </div>
+
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Phone Number</th>
+                    <th>City</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data rows will be added here -->
+            </tbody>
+        </table>
+
+        <table id="searchTable" class="search-table">
+            <thead>
+                <tr>
+                    <th>Search Results</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Search results will be added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const dataTable = document.getElementById('dataTable').getElementsByTagName('tbody')[0];
+        const searchTable = document.getElementById('searchTable').getElementsByTagName('tbody')[0];
+
+        function addData() {
+            const name = document.getElementById('name').value;
+            const age = document.getElementById('age').value;
+            const phone = document.getElementById('phone').value;
+            const city = document.getElementById('city').value;
+
+            if (name && age && phone && city) {
+                const newRow = dataTable.insertRow();
+                newRow.insertCell(0).textContent = name;
+                newRow.insertCell(1).textContent = age;
+                newRow.insertCell(2).textContent = phone;
+                newRow.insertCell(3).textContent = city;
+
+                document.getElementById('name').value = '';
+                document.getElementById('age').value = '';
+                document.getElementById('phone').value = '';
+                document.getElementById('city').value = '';
+            }
+        }
+
+        function searchData() {
+            const searchValue = prompt("Enter a value to search for:");
+            if (searchValue) {
+                searchTable.innerText = '';
+                const rows = dataTable.getElementsByTagName('tr');
+                for (const row of rows) {
+                    for (const cell of row.getElementsByTagName('td')) {
+                        if (cell.textContent.toLowerCase().includes(searchValue.toLowerCase())) {
+                            const resultRow = searchTable.insertRow();
+                            resultRow.insertCell(0).textContent = row.innerText;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
